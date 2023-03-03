@@ -27,7 +27,7 @@ pipeline {
 
   post {
     always {
-        archiveArtifacts artifacts: 'chesslib/resources/docs/**', fingerprint: true
+        archiveArtifacts artifacts: 'chesslib/resources/docs.zip', fingerprint: true
     }
   }
 }
