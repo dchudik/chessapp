@@ -37,6 +37,7 @@ func TestChessCalculatorCoordinatesError(t *testing.T) {
 		assert.Nil(t, err, "Scan err: ", err)
 		// Act
 		_, err = chessLib.IsKingUnderAttackBishop(testCase.FigureCoordinates, testCase.KingCoordinates)
+		// t.Log(testCase.FigureCoordinates, byte(testCase.FigureCoordinates[0]), testCase.KingCoordinates, testCase.IsError, err)
 		// Assert
 		if testCase.IsError {
 			assert.NotNil(t, err, fmt.Sprintf("Must error when coordinates Figure: %s and King: %s",
