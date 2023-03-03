@@ -8,21 +8,18 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type testCaseCoordinates struct {
+type testCaseCoordinatesError struct {
 	FigureCoordinates string `db:"figure_coordinates"`
 	KingCoordinates   string `db:"king_coordinates"`
+	IsError           bool   `db:"error"`
 }
 
-type testCaseCoordinatesError struct {
-	testCaseCoordinates
-	IsError bool `db:"error"`
-}
-
-type testCaseCoordinatesUnderAttack struct {
-	testCaseCoordinates
-	FigureType    string `db:"figure"`
-	IsUnderAttack bool   `db:"under_attack"`
-}
+// type testCaseCoordinatesUnderAttack struct {
+// 	FigureCoordinates string `db:"figure_coordinates"`
+// 	KingCoordinates   string `db:"king_coordinates"`
+// 	FigureType        string `db:"figure"`
+// 	IsUnderAttack     bool   `db:"under_attack"`
+// }
 
 func TestChessCalculatorCoordinatesError(t *testing.T) {
 	connectPostgresOnce()
@@ -30,13 +27,13 @@ func TestChessCalculatorCoordinatesError(t *testing.T) {
 	// Arrange
 	// Receive test cases from DB
 	testCases, err := psql.Queryx(`
-		SELECT * FROM figures_coordinates_errors
+		SELECT figure_coordinates,king_coordinates,error FROM figures_coordinates_errors
 	`)
 	assert.Nil(t, err, "Get test cases err: ", err)
 	// Execute each test from db
 	for testCases.Next() {
-		var testCase testCaseCoordinatesError
-		err := testCases.Scan(&testCase)
+		testCase := testCaseCoordinatesError{}
+		err := testCases.Scan(&testCase.FigureCoordinates, &testCase.KingCoordinates, &testCase.IsError)
 		assert.Nil(t, err, "Scan err: ", err)
 		// Act
 		_, err = chessLib.IsKingUnderAttackBishop(testCase.FigureCoordinates, testCase.KingCoordinates)
