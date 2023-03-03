@@ -11,9 +11,9 @@ pipeline {
       }
       stage("Test") {
         steps {
-          catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+          // catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
               sh "cd chesslib/tests && go test"
-          }
+          // }
         }
       }
       stage("Build Docs") {
@@ -27,7 +27,7 @@ pipeline {
 
   post {
     always {
-        archiveArtifacts artifacts: 'chesslib/resources/docs.zip', fingerprint: true
+        archiveArtifacts artifacts: 'chesslib/resources/docs.zip', fingerprint: true, onlyIfSuccessful: true
     }
   }
 }
