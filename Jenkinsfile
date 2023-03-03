@@ -18,9 +18,9 @@ pipeline {
       }
       stage("Build Docs") {
         steps {
-          catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+          // catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
               sh "cd chesslib/resources && sh receivedoc.sh"
-          }
+          // }
         }
       }
   }
