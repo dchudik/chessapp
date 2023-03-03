@@ -4,25 +4,22 @@ pipeline {
   stages { 
       stage("Lint") {
           steps {
-            sh "cd chesslib"
             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
-                sh "golangci-lint run --enable-all ./..."
+                sh "cd chesslib && golangci-lint run --enable-all ./..."
             }
           }
       }
       stage("Test") {
           steps {
-            sh "cd chesslib/tests"
             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
-                sh "go test"
+                sh "cd chesslib/tests && go test"
             }
           }
       }
       stage("Build Docs") {
           steps {
-            sh "cd chesslib/resources"
             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
-                sh "sh receivedoc.sh"
+                sh "cd chesslib/resources && sh receivedoc.sh"
             }
           }
       }
