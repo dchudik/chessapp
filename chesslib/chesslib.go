@@ -15,6 +15,6 @@ type ChessLib struct {
 
 // Calculator for danger to king from figures
 type ChessKingUnderDangerCalculator interface {
-	IsKingUnderAttackRook(figureCoordinates, kingCoordinates string) bool
-	IsKingUnderAttackBishop(figureCoordinates, kingCoordinates string) bool
+	IsKingUnderAttackRook(figureCoordinates, kingCoordinates string) (bool, error)
+	IsKingUnderAttackBishop(figureCoordinates, kingCoordinates string) (bool, error)
 }
