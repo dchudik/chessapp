@@ -4,7 +4,11 @@ import "strings"
 
 // Create ChessKingUnderDangerCalculator instance
 func NewChessKingUnderDangerCalculator() *ChessLib {
-	return &ChessLib{}
+	debug := getDebugMode()
+	return &ChessLib{
+		Debug:  debug,
+		Logger: NewLogger(debug),
+	}
 }
 
 // Calculate danger to King from Rook
@@ -15,7 +19,9 @@ func (ChessLib *ChessLib) IsKingUnderAttackRook(figureCoordinates, kingCoordinat
 	if err != nil {
 		return false, err
 	}
-	return false, nil
+	isUnderAttack := false
+	ChessLib.Logger.DebugLog(FigureTypeRook, figureCoordinates, kingCoordinates, isUnderAttack, err)
+	return isUnderAttack, nil
 }
 
 // Calculate danger to King from Bishop
@@ -26,6 +32,8 @@ func (ChessLib *ChessLib) IsKingUnderAttackBishop(figureCoordinates, kingCoordin
 	if err != nil {
 		return false, err
 	}
+	isUnderAttack := false
+	ChessLib.Logger.DebugLog(FigureTypeBishop, figureCoordinates, kingCoordinates, isUnderAttack, err)
 	return false, nil
 }
 

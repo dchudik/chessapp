@@ -8,7 +8,10 @@ const (
 )
 
 // Chess library implementation
-type ChessLib struct{}
+type ChessLib struct {
+	Debug  bool
+	Logger Logger
+}
 
 // Calculator for danger to king from figures
 type ChessKingUnderDangerCalculator interface {
