@@ -1,2 +1,3 @@
 chesslib/resources/docs*
 **/*.env
+chessapi/main

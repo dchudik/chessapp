@@ -17,16 +17,16 @@ type RespIsKingUnderAttack struct {
 }
 
 func (Handlers *Handlers) IsKingUnderAttackHandler(w http.ResponseWriter, r *http.Request) {
-	figureType := ""
-	figureCoordinate := ""
-	kingCoordinate := ""
+	figureType := r.URL.Query().Get("figure_type")
+	figureCoordinates := r.URL.Query().Get("figure_coordinates")
+	kingCoordinates := r.URL.Query().Get("king_coordinates")
 	isUnderAttack := false
 	var err error
 	switch figureType {
 	case chesslib.FigureTypeBishop:
-		isUnderAttack, err = Handlers.ChessCalculator.IsKingUnderAttackBishop(figureCoordinate, kingCoordinate)
+		isUnderAttack, err = Handlers.ChessCalculator.IsKingUnderAttackBishop(figureCoordinates, kingCoordinates)
 	case chesslib.FigureTypeRook:
-		isUnderAttack, err = Handlers.ChessCalculator.IsKingUnderAttackRook(figureCoordinate, kingCoordinate)
+		isUnderAttack, err = Handlers.ChessCalculator.IsKingUnderAttackRook(figureCoordinates, kingCoordinates)
 	default:
 		err = ErrFigureTypeNotFound
 	}

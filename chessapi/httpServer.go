@@ -2,15 +2,20 @@ package chessapi
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/dchudik/chessapp/chesslib"
 )
 
-func runHttpServer() error {
+func RunHttpServer() error {
 	handlers := &Handlers{
 		ChessCalculator: chesslib.NewChessKingUnderDangerCalculator(),
 	}
 	http.HandleFunc("/api/v1/king_attck", handlers.IsKingUnderAttackHandler)
-	err := http.ListenAndServe(":8080", nil)
+	port := os.Getenv("HTTP_PORT")
+	if port == "" {
+		port = "8080"
+	}
+	err := http.ListenAndServe(":"+port, nil)
 	return err
 }
