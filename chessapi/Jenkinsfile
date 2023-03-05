@@ -1,0 +1,48 @@
+pipeline { 
+  agent any 
+  environment {
+    debug = "1"
+  }
+  stages { 
+      stage("Lint") {
+        steps {
+          catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+              sh "cd chessapi && golangci-lint run --enable-all ./..."
+          }
+        }
+      }
+      stage("Test") {
+        steps {
+          // catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+              sh "cd chessapi && go test"
+          // }
+        }
+      }
+      // stage("Build Docs") {
+      //   steps {
+      //     // catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+      //         sh "cd chesslib/resources && sh receivedoc.sh"
+      //     // }
+      //   }
+      // }
+      stage("Release") {
+        steps {
+          script {
+            if (env.BRANCH_NAME == 'production'){
+              debug = "0"
+            } 
+          }
+            
+            sh "cd chessaspi && DEBUG=${debug} go build cmd/main.go"
+          
+        }
+      }
+  }
+
+  post {
+    always {
+        // archiveArtifacts artifacts: 'chesslib/resources/docs.zip', fingerprint: true, onlyIfSuccessful: true
+        archiveArtifacts artifacts: 'chessapi/main', fingerprint: true, onlyIfSuccessful: true
+    }
+  }
+}

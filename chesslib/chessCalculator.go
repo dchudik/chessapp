@@ -4,7 +4,11 @@ import "strings"
 
 // Create ChessKingUnderDangerCalculator instance
 func NewChessKingUnderDangerCalculator() *ChessLib {
-	return &ChessLib{}
+	debug := getDebugMode()
+	return &ChessLib{
+		Debug:  debug,
+		Logger: NewLogger(debug),
+	}
 }
 
 // Calculate danger to King from Rook
@@ -13,9 +17,11 @@ func (ChessLib *ChessLib) IsKingUnderAttackRook(figureCoordinates, kingCoordinat
 	kingCoordinates = strings.ToUpper(kingCoordinates)
 	err := ChessLib.validateCoordinatesForTwoFigures(figureCoordinates, kingCoordinates)
 	if err != nil {
-		return false, ErrKingCoordinatesNotValid
+		return false, err
 	}
-	return false, nil
+	isUnderAttack := false
+	ChessLib.Logger.DebugLog(FigureTypeRook, figureCoordinates, kingCoordinates, isUnderAttack, err)
+	return isUnderAttack, nil
 }
 
 // Calculate danger to King from Bishop
@@ -24,8 +30,10 @@ func (ChessLib *ChessLib) IsKingUnderAttackBishop(figureCoordinates, kingCoordin
 	kingCoordinates = strings.ToUpper(kingCoordinates)
 	err := ChessLib.validateCoordinatesForTwoFigures(figureCoordinates, kingCoordinates)
 	if err != nil {
-		return false, ErrKingCoordinatesNotValid
+		return false, err
 	}
+	isUnderAttack := false
+	ChessLib.Logger.DebugLog(FigureTypeBishop, figureCoordinates, kingCoordinates, isUnderAttack, err)
 	return false, nil
 }
 
@@ -37,10 +45,12 @@ func (ChessLib *ChessLib) validateCoordinatesForTwoFigures(figureCoordinates, ki
 	err := ChessLib.validateCoordinates(figureCoordinates)
 	if err != nil {
 		return ErrCoordinatesNotValid
+		// return err
 	}
 	err = ChessLib.validateCoordinates(kingCoordinates)
 	if err != nil {
 		return ErrKingCoordinatesNotValid
+		// return err
 	}
 
 	return nil
@@ -52,10 +62,10 @@ func (ChessLib *ChessLib) validateCoordinates(figureCoordinates string) error {
 		return ErrCoordinatesNotValid
 	}
 	if !isFirstCoordinateValid(figureCoordinates[0]) {
-		return ErrCoordinatesNotValid
+		return ErrVerticalCoordinateNotValid
 	}
 	if !isSecondCoordinateValid(figureCoordinates[1]) {
-		return ErrCoordinatesNotValid
+		return ErrHorizontalCoordinateNotValid
 	}
 	return nil
 }
@@ -63,7 +73,7 @@ func (ChessLib *ChessLib) validateCoordinates(figureCoordinates string) error {
 // Validate first coordinate
 func isFirstCoordinateValid(coordinate byte) bool {
 	// First letter in range A,B,C,D,E,F,G,H
-	if coordinate >= 41 && coordinate <= 48 {
+	if coordinate >= 65 && coordinate <= 72 {
 		return true
 	}
 	return false
@@ -72,7 +82,7 @@ func isFirstCoordinateValid(coordinate byte) bool {
 // Validate second coordinate
 func isSecondCoordinateValid(coordinate byte) bool {
 	// Second letter in range 1,2,3,4,5,6,7,8
-	if coordinate >= 31 && coordinate <= 38 {
+	if coordinate >= 49 && coordinate <= 56 {
 		return true
 	}
 	return false
