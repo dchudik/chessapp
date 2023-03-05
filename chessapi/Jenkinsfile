@@ -33,7 +33,7 @@ pipeline {
             } 
           }
             
-            sh "cd chessaspi && DEBUG=${debug} go build cmd/main.go"
+            sh "cd chessapi && DEBUG=${debug} go build cmd/main.go"
           
         }
       }
