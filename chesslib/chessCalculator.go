@@ -1,6 +1,8 @@
 package chesslib
 
-import "strings"
+import (
+	"strings"
+)
 
 // Create ChessKingUnderDangerCalculator instance
 func NewChessKingUnderDangerCalculator() *ChessLib {
@@ -21,6 +23,9 @@ func (ChessLib *ChessLib) IsKingUnderAttackRook(figureCoordinates, kingCoordinat
 		ChessLib.Logger.DebugLog(FigureTypeRook, figureCoordinates, kingCoordinates, isUnderAttack, err)
 		return false, err
 	}
+	if figureCoordinates[0] == kingCoordinates[0] || figureCoordinates[1] == kingCoordinates[1] {
+		isUnderAttack = true
+	}
 	ChessLib.Logger.DebugLog(FigureTypeRook, figureCoordinates, kingCoordinates, isUnderAttack, err)
 	return isUnderAttack, nil
 }
@@ -34,8 +39,56 @@ func (ChessLib *ChessLib) IsKingUnderAttackBishop(figureCoordinates, kingCoordin
 		return false, err
 	}
 	isUnderAttack := false
+	if kingCoordinates[0] > figureCoordinates[0] && kingCoordinates[1] > figureCoordinates[1] {
+		fc := figureCoordinates[0]
+		sc := figureCoordinates[1]
+		for fc <= kingCoordinates[0] || sc <= kingCoordinates[1] {
+			if string(fc)+string(sc) == kingCoordinates {
+				isUnderAttack = true
+				break
+			}
+			fc++
+			sc++
+		}
+	}
+	if kingCoordinates[0] > figureCoordinates[0] && kingCoordinates[1] < figureCoordinates[1] {
+		fc := figureCoordinates[0]
+		sc := figureCoordinates[1]
+		for fc <= kingCoordinates[0] || sc >= kingCoordinates[1] {
+			if string(fc)+string(sc) == kingCoordinates {
+				isUnderAttack = true
+				break
+			}
+			fc++
+			sc--
+		}
+	}
+	if kingCoordinates[0] < figureCoordinates[0] && kingCoordinates[1] > figureCoordinates[1] {
+		fc := figureCoordinates[0]
+		sc := figureCoordinates[1]
+		for fc >= kingCoordinates[0] || sc <= kingCoordinates[1] {
+			if string(fc)+string(sc) == kingCoordinates {
+				isUnderAttack = true
+				break
+			}
+			fc--
+			sc++
+		}
+	}
+	if kingCoordinates[0] < figureCoordinates[0] && kingCoordinates[1] < figureCoordinates[1] {
+		fc := figureCoordinates[0]
+		sc := figureCoordinates[1]
+		for fc >= kingCoordinates[0] || sc >= kingCoordinates[1] {
+			if string(fc)+string(sc) == kingCoordinates {
+				isUnderAttack = true
+				break
+			}
+			fc--
+			sc--
+		}
+	}
 	ChessLib.Logger.DebugLog(FigureTypeBishop, figureCoordinates, kingCoordinates, isUnderAttack, err)
-	return false, nil
+	return isUnderAttack, nil
 }
 
 // Validate coordinates for two figures
