@@ -50,35 +50,6 @@ func TestChessCalculatorCoordinatesError(t *testing.T) {
 	}
 }
 
-// func TestChessCalculatorCoordinatesUnderAttack(t *testing.T) {
-// 	connectPostgresOnce()
-// 	chessLib := chesslib.NewChessKingUnderDangerCalculator()
-// 	// Arrange
-// 	testCases, err := psql.Queryx(`
-// 		SELECT * FROM figures_coordinates_under_attack
-// 	`)
-// 	assert.Nil(t, err, "Get test cases err: ", err)
-// 	// Execute each test from db
-// 	for testCases.Next() {
-// 		var testCase testCaseCoordinatesUnderAttack
-// 		err := testCases.Scan(&testCase)
-// 		assert.Nil(t, err, "Scan err: ", err)
-// 		// Act
-// 		underAttack, err := chessLib.IsKingUnderAttackBishop(testCase.FigureCoordinates, testCase.KingCoordinates)
-// 		assert.NotNil(t, err, fmt.Sprintf("Must error when coordinates Figure: %s and King: %s", testCase.FigureCoordinates, testCase.KingCoordinates))
-// 		// Assert
-// 		if testCase.IsUnderAttack {
-// 			assert.True(t, underAttack, fmt.Sprintf("Under attack must true when figure Type: %s coordinates Figure: %s and King: %s",
-// 				testCase.FigureType, testCase.FigureCoordinates, testCase.KingCoordinates))
-// 		} else {
-// 			assert.False(t, underAttack, fmt.Sprintf("Under attack must true when figure Type: %s coordinates Figure: %s and King: %s",
-// 				testCase.FigureType, testCase.FigureCoordinates, testCase.KingCoordinates))
-// 		}
-
-// 	}
-
-// }
-
 func TestChessCalculatorCoordinatesUnderAttack(t *testing.T) {
 	connectPostgresOnce()
 	chessLib := chesslib.NewChessKingUnderDangerCalculator()
@@ -115,47 +86,3 @@ func TestChessCalculatorCoordinatesUnderAttack(t *testing.T) {
 		}
 	}
 }
-
-// func TestChessCalculatorCoordinatesUnderAttack(t *testing.T) {
-// 	chessLib := chesslib.NewChessKingUnderDangerCalculator()
-// 	// Arrange
-// 	testCases := []testCaseCoordinatesUnderAttack{
-// 		{
-// 			FigureCoordinates: "B3",
-// 			KingCoordinates:   "D5",
-// 			FigureType:        chesslib.FigureTypeBishop,
-// 			IsUnderAttack:     true,
-// 		},
-// 		{
-// 			FigureCoordinates: "B3",
-// 			KingCoordinates:   "D1",
-// 			FigureType:        chesslib.FigureTypeBishop,
-// 			IsUnderAttack:     true,
-// 		},
-// 		{
-// 			FigureCoordinates: "B3",
-// 			KingCoordinates:   "A4",
-// 			FigureType:        chesslib.FigureTypeBishop,
-// 			IsUnderAttack:     true,
-// 		},
-// 		{
-// 			FigureCoordinates: "B3",
-// 			KingCoordinates:   "A2",
-// 			FigureType:        chesslib.FigureTypeBishop,
-// 			IsUnderAttack:     true,
-// 		},
-// 	}
-// 	for _, testCase := range testCases {
-// 		// Act
-// 		underAttack, err := chessLib.IsKingUnderAttackBishop(testCase.FigureCoordinates, testCase.KingCoordinates)
-// 		assert.Nil(t, err, fmt.Sprintf("Must error when coordinates Figure: %s and King: %s", testCase.FigureCoordinates, testCase.KingCoordinates))
-// 		// Assert
-// 		if testCase.IsUnderAttack {
-// 			assert.True(t, underAttack, fmt.Sprintf("Under attack must true when figure Type: %s coordinates Figure: %s and King: %s",
-// 				testCase.FigureType, testCase.FigureCoordinates, testCase.KingCoordinates))
-// 		} else {
-// 			assert.False(t, underAttack, fmt.Sprintf("Under attack must true when figure Type: %s coordinates Figure: %s and King: %s",
-// 				testCase.FigureType, testCase.FigureCoordinates, testCase.KingCoordinates))
-// 		}
-// 	}
-// }
