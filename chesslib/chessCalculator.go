@@ -15,11 +15,12 @@ func NewChessKingUnderDangerCalculator() *ChessLib {
 func (ChessLib *ChessLib) IsKingUnderAttackRook(figureCoordinates, kingCoordinates string) (bool, error) {
 	figureCoordinates = strings.ToUpper(figureCoordinates)
 	kingCoordinates = strings.ToUpper(kingCoordinates)
+	isUnderAttack := false
 	err := ChessLib.validateCoordinatesForTwoFigures(figureCoordinates, kingCoordinates)
 	if err != nil {
+		ChessLib.Logger.DebugLog(FigureTypeRook, figureCoordinates, kingCoordinates, isUnderAttack, err)
 		return false, err
 	}
-	isUnderAttack := false
 	ChessLib.Logger.DebugLog(FigureTypeRook, figureCoordinates, kingCoordinates, isUnderAttack, err)
 	return isUnderAttack, nil
 }
