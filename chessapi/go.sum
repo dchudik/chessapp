@@ -1,2 +1,4 @@
 github.com/dchudik/chessapp/chesslib v0.0.0-20230304123425-dc54d7cdb647 h1:s48RsCd8oWSg7/UGHTefy4+W7yreUXqLDFKQTXq50bQ=
 github.com/dchudik/chessapp/chesslib v0.0.0-20230304123425-dc54d7cdb647/go.mod h1:KRxWnJfybj+upIP9zh6uIGydXuUkRXcYPjQk1XtxuNQ=
+github.com/dchudik/chessapp/chesslib v0.0.0-20230305103628-e07a28a7b8e6 h1:Y0qllKHCvN7AQMfj3yFuU1Prh+Agts3D9xKxUTvBH6A=
+github.com/dchudik/chessapp/chesslib v0.0.0-20230305103628-e07a28a7b8e6/go.mod h1:KRxWnJfybj+upIP9zh6uIGydXuUkRXcYPjQk1XtxuNQ=

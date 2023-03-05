@@ -17,6 +17,7 @@ type RespIsKingUnderAttack struct {
 }
 
 func (Handlers *Handlers) IsKingUnderAttackHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	figureType := r.URL.Query().Get("figure_type")
 	figureCoordinates := r.URL.Query().Get("figure_coordinates")
 	kingCoordinates := r.URL.Query().Get("king_coordinates")
@@ -37,6 +38,7 @@ func (Handlers *Handlers) IsKingUnderAttackHandler(w http.ResponseWriter, r *htt
 		})
 		if err != nil {
 		}
+		w.WriteHeader(http.StatusBadRequest)
 		w.Write(resp)
 		return
 	}
